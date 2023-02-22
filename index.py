@@ -29,6 +29,7 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+#Help menu
 @bot.tree.command(name="help", description="displays help information")
 async def help(interaction: discord.Interaction):
     await interaction.response.send_message(embed=help_menu, ephemeral=True)
@@ -41,5 +42,14 @@ async def hello(interaction: discord.Interaction):
 @app_commands.describe(arg ="What should I say?")
 async def say(interaction: discord.Interaction, arg: str):
     await interaction.response.send_message(f"{interaction.user.name} said: {arg}!")
+
+@bot.tree.command(name="serverinfo", description="shows server information")
+async def serverinfo(interaction: discord.Interaction):
+    embed=discord.Embed(title="Server Info", description="", color=0x9c9c9c)
+    embed.add_field(name="Server Name", value=interaction.guild.name, inline=False)
+    embed.add_field(name="Server Owner", value=interaction.guild.owner, inline=False)
+    embed.add_field(name="Members", value=interaction.guild.member_count, inline=False)
+    embed.add_field(name="Server creation date", value=interaction.guild.created_at.date(), inline=False)
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 bot.run(DISCORD_TOKEN)
