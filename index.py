@@ -29,20 +29,22 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-#Help menu
+# /help - Help menu
 @bot.tree.command(name="help", description="displays help information")
 async def help(interaction: discord.Interaction):
     await interaction.response.send_message(embed=help_menu, ephemeral=True)
 
+# /hello
 @bot.tree.command(name="hello", description="Tells you that you used a slash command")
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f"Hey {interaction.user.mention}! This is a slash command!", ephemeral=True)
 
+# /say
 @bot.tree.command(name="say", description="says what you give it")
 @app_commands.describe(arg ="What should I say?")
 async def say(interaction: discord.Interaction, arg: str):
     await interaction.response.send_message(f"{interaction.user.name} said: {arg}!")
-
+# /serverinfo
 @bot.tree.command(name="serverinfo", description="shows server information")
 async def serverinfo(interaction: discord.Interaction):
     embed=discord.Embed(title="Server Info", description="", color=0x9c9c9c)
