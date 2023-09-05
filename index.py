@@ -3,7 +3,8 @@ import os
 
 import discord
 from discord import app_commands
-from discord.ext import commands
+
+import embeds
 
 # Load .env data
 load_dotenv()
@@ -12,8 +13,6 @@ GUILD_ID = os.environ.get("GUILD_ID")
 PREFIX = os.environ.get("PREFIX")
 
 # global variables
-help_menu = discord.Embed(title="Help", description="", color=0x9c9c9c).add_field(
-    name="/help", value="shows you this promt", inline=False)
 sync = False
 
 intents = discord.Intents.default()
@@ -43,7 +42,7 @@ async def sync(interaction: discord.Interaction):
 
 @tree.command(name="help", description="displays help information")
 async def help(interaction: discord.Interaction):
-    await interaction.response.send_message(embed=help_menu, ephemeral=True)
+    await interaction.response.send_message(embed=embeds.help(), ephemeral=True)
 
 # /hello
 
