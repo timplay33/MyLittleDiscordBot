@@ -1,6 +1,6 @@
 import discord
 commands = {
-    "/help": "shows you this promt",
+    "/help": "shows you this prompt",
     "/hello": "says hello to you",
     "/sync": "updates the bots slash commands",
     "/serverinfo": "shows basic infos about the server",

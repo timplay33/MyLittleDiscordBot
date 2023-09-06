@@ -10,7 +10,6 @@ import embeds
 load_dotenv()
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 GUILD_ID = os.environ.get("GUILD_ID")
-PREFIX = os.environ.get("PREFIX")
 
 # global variables
 sync = False
@@ -18,7 +17,6 @@ sync = False
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
-
 
 @client.event
 async def on_ready():
@@ -28,7 +26,7 @@ async def on_ready():
 
 @tree.command(name="sync", description="syncs commands to the server")
 async def sync(interaction: discord.Interaction):
-    if interaction.user == interaction.user:  # ToDo - check if the user is the owner of the server
+    if (interaction.user.guild_permissions.administrator):
         try:
             await tree.sync(guild=discord.Object(id=interaction.guild_id))
             await interaction.response.send_message(f"Syncing commands to the server (guild_id = {interaction.guild_id})", ephemeral=True)
@@ -50,6 +48,9 @@ async def help(interaction: discord.Interaction):
 @tree.command(name="hello", description="Tells you that you used a slash command")
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f"Hey {interaction.user.display_name}! This is a slash command!", ephemeral=True)
+    # DM
+    dm = await client.create_dm(interaction.user)
+    await dm.send(content="Hi")
 
 # /say
 
@@ -77,7 +78,11 @@ async def serverinfo(interaction: discord.Interaction):
 
 @tree.command(name="getrole", description="gives a role to a user")
 async def getrole(interaction: discord.Interaction):
+    #role = await interaction.guild.create_role(name="mod")
+    #print(interaction.user.roles)
     try:
+       # await interaction.user.add_roles(role)
+
         await interaction.response.send_message(f"{interaction.user.name} gave you a role!", ephemeral=True)
     except:
         await interaction.response.send_message(f"{interaction.user.name} did not give you a role!", ephemeral=True)
